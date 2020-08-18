@@ -1,0 +1,47 @@
+<h1>Список пользователей</h1>
+<div class="container">
+  <table 
+    *ngIf="tableData && tableData.values && tableData.values.length > 0" 
+    mat-table 
+    cdkDropList 
+    [dataSource]="tableData.values" 
+    class="mat-elevation-z8"
+    (cdkDropListDropped)="drop($event)"
+  >
+
+    <ng-container *ngFor="let header of tableData.headers; let i = index; trackBy: trackByFn" [matColumnDef]="tableHeaders[i]">
+      <th mat-header-cell *matHeaderCellDef> {{ header }} </th>
+      <td mat-cell *matCellDef="let element"> 
+        <div *ngIf="tableHeaders[i] !== 'languages'">{{element[tableHeaders[i]]}}</div>
+        <mat-form-field *ngIf="tableHeaders[i] === 'languages'">
+          <mat-chip-list>
+            <mat-chip *ngFor="let lang of element[tableHeaders[i]]; let j = index; trackBy: trackByFn">
+              {{ lang }}
+            </mat-chip>
+          </mat-chip-list>
+        </mat-form-field>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element" >
+        <button class="action-btn" (click)="onUserEdit(element)">
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+        </button>
+        <button class="action-btn" (click)="onUserRemove(element)">
+          <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </button>
+      </td>
+    </ng-container> 
+
+    <tr mat-header-row *matHeaderRowDef="tableHeaders.concat('actions');"></tr>
+    <tr 
+      cdkDrag
+      [cdkDragData]="header" 
+      mat-row 
+      *matRowDef="let row; columns: tableHeaders.concat('actions');"
+    ></tr>
+  </table>
+  <h3 *ngIf="!tableData || ( tableData.values && tableData.values.length === 0)">Данные отсутствуют</h3>
+</div>

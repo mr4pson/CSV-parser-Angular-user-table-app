@@ -1,0 +1,11 @@
+::ng-deep {
+    .mat-form-field {
+        display: block;
+        .mat-form-field-appearance-legacy .mat-form-field-infix {
+            width: 100%;
+        }
+    }
+}
+.fa-times-circle {
+    font-size: 20px;
+}

@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Редактирование {{ data.user.name + ' ' + data.user.surname }}</h1>
+<div [formGroup]="form" mat-dialog-content>
+    <div *ngFor="let controlName of data.controlNames; let i = index;">
+        <mat-form-field *ngIf="['name', 'surname'].includes(controlName)">
+            <mat-label>{{ data.headers[i] }}</mat-label>
+            <input matInput [formControlName]="controlName">
+        </mat-form-field>
+        <mat-form-field *ngIf="controlName === 'languages'">
+            <mat-label>{{ data.headers[i] }}</mat-label>
+            <mat-chip-list>
+                <mat-chip *ngFor="let lang of data.user.languages; let j = index;" (removed)="onLangRemove(j)">
+                  {{ lang }}
+                  <i matChipRemove class="fa fa-times-circle"></i>
+                </mat-chip>
+            </mat-chip-list>
+        </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Отмена</button>
+    <button mat-button cdkFocusInitial (click)="onSave()">Принять</button>
+</div>

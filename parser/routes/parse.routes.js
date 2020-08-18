@@ -24,7 +24,7 @@ router.get('/data', async (req, res) => {
                         id: data[0],
                         name: data[1],
                         surname: data[2],
-                        languages: JSON.parse(data[3])
+                        languages: data[3].split(',')
                     })
             })
             .on('end', () => {
